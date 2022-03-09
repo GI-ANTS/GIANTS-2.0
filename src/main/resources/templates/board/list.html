@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('MAIN')">
+</head>
+<script th:src="@{/js/board.js}"></script>
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('MAIN')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 m-auto p-3">
+
+        <div class="d-flex justify-content-between py-3">
+
+            <h3 classt="pt-3 pb-1">
+                <span class="text-primary" th:text="${stock.stockName}"></span>&nbsp;
+                [<span th:text="${stock.stockId}"></span>]
+            </h3>
+
+
+            <form th:action="@{/board/list}" th:method="GET" id="searchForm">
+                <div class="input-group">
+                    <input type="hidden" name="page" value="1">
+                    <div class="input-group-prepend">
+                        <input type="hidden" name="type" th:value="tc">
+                    </div>
+
+                    <input type="hidden" name="stock" th:value="${stock.stockId}">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control border-secondary ui-autocomplete-input" id="search_input" name="keyword" th:value="${pageRequestDto.keyword}" autocomplete="off">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+
+                </div>
+            </form>
+
+
+        </div>
+
+        <div class="py-1 mb-2 text-end">
+            <button type="button" class="btn btn-success p-1" th:onclick="writeBoard([[${stock.stockId}]])">
+                <span>글 작성</span>
+            </button>
+        </div>
+
+        <div th:each="board : ${boards.dtoList}" class="card border-0 mb-3" id="article-x" style="border-radius: 1rem !important;">
+            <a class="card-body bg-white btn btn-light w-100 text-start title" th:href="@{/board/detail(b=${board.boardId})}">
+                <h2 th:text="${board.title}"></h2>
+                <span class="text-dark" th:text="${board.nickname}"></span>
+                <div class="d-flex justify-content-between">
+                    <span class="text-secondary">[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</span>
+                    <div>
+                        <i class="far fa-comments"></i>
+                        <span th:text="${board.commentCount}"></span>
+                        &nbsp;
+                        <i class="fa fa-heart"></i>
+                        <span th:text="${board.likeCount}"></span>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <ul class="pagination justify-content-center align-items-center">
+            <li class="page-item" th:if="${boards.prev}">
+                <a th:href="@{/board/list(stock=${stock.stockId}, page=${boards.start -1})}" tabindex="-1"> < </a>
+            </li>
+            <li class="page-item" th:each="page: ${boards.pageList}">
+                <a class="page-link" th:href="@{/board/list(stock=${stock.stockId}, page=${page})}" th:classappend="${boards.page == page} ? 'bg-primary text-white'">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${boards.next}">
+                <a class="page-link" th:href="@{/board/list(stock=${stock.stockId}, page=${boards.end +1})}"> > </a>
+            </li>
+        </ul>
+
+    </div>
+</section>
+
+</body>
+
+</html>

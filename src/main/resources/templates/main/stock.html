@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('STOCK')">
+</head>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/disclosure.js}"></script>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('STOCK')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 m-auto px-md-3 py-2">
+        <div class="row p-0 m-0">
+            <div class="col-md-12 py-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h4 class="pt-2 px-3">
+                            <span class="text-primary" th:text="${stock.stockName}"></span>
+                            <span th:text="${stock.stockId}"></span>
+                            <span class="badge bg-danger text-white pt-1 pb-0" th:if="${stock.market} == 'p'">
+                                <span>KOSPI</span>
+                            </span>
+                            <span class="badge bg-danger text-white pt-1 pb-0" th:if="${stock.market} == 'd'">
+                                <span>KOSDAQ</span>
+                            </span>
+                            <span class="badge bg-secondary text-white pt-1 pb-0 px-1" th:onclick="corpAnalisys('home', [[${stock.homepage}]])" style="cursor: pointer;">
+                                <i class="fa fa-home"></i>
+                            </span>
+                        </h4>
+                        <div class="pt-2 px-3">
+                            <button class="btn text-white p-1 fw-bold" id="naverBtn" th:onclick="corpAnalisys('naver', [[${stock.stockId}]])">
+                                NAVER
+                            </button>
+                            <button class="btn text-white p-1 fw-bold" id="fnguideBtn" th:onclick="corpAnalisys('fnguide', [[${stock.stockId}]])">
+                                FN가이드
+                            </button>
+                            <button class="btn text-white p-1 fw-bold" id="irgoBtn" th:onclick="corpAnalisys('irgo', [[${stock.stockId}]])">
+                                IRGO
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-0 m-0">
+            <div class="col-md-12 py-2">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="p-md-2">
+                            <h5>업종</h5>
+                            <div class="pb-1" th:text="${stock.sector}"></div>
+                            <br>
+                            <div th:if="${stock.product}">
+                                <h5>주요제품</h5>
+                                <div th:text="${stock.product}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row p-0 m-0">
+
+            <div class="col-md-6 mb-2 pt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+
+                        <!-- SERCTION 1 -->
+                        <div style="font-size: .5rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4>토론실</h4>
+                                <a type="submit" class="btn btn-outline-primary p-1" th:href="@{/board/list(stock=${stock.stockId})}">
+                                    <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
+                                </a>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+
+                                <tr>
+                                    <th>작성자</th>
+                                    <th>제목</th>
+                                    <th>작성일시</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="board : ${boards}">
+                                    <td th:text="${board.nickname}"></td>
+                                    <td th:text="${board.title}"></td>
+                                    <td>[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- // SERCTION 1 -->
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-2 pt-2">
+                <div class="card border-0">
+                    <div class="card-body">
+
+                        <!-- SERCTION 1 -->
+                        <div style="font-size: .5rem !important;">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4>공시</h4>
+                                <form th:action="@{'/stock/'+${stock.stockId}+'/disclosure/all'}" th:method="GET">
+                                    <input type="hidden" name="stockCode" th:value="${stock.stockId}">
+                                    <button class="btn btn-outline-primary" type="submit">
+                                        <i class="fa fa-plus p-1 m-0"></i> <span>더보기</span>
+                                    </button>
+                                </form>
+                            </div>
+
+                            <table class="table">
+                                <thead class="text-center">
+                                <tr>
+                                    <th>날짜</th>
+                                    <th>보고서명</th>
+                                    <th>제출인</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="report : ${reports}">
+                                    <td th:text="${report.rceptDt}"></td>
+                                    <td th:text="${report.reportNm}"></td>
+                                    <td th:text="${report.flrNm}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- // SERCTION 1 -->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+h1, h2, h3, h4, h5, span {
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+body {
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+div::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+nav > div {
+    height: 3rem;
+}
+.main {
+    min-height: 100%;
+}
+.offcanvas-start {
+    top: 0;
+    left: 0;
+    width: 280px;
+}
+
+a {
+    text-decoration-line: none;
+}
+
+section {
+    width: 100%;
+    background: rgb(248, 249, 250);
+    height: calc(100% - 3rem);
+    overflow: auto;
+}
+
+#searched tr td {
+    padding: .2rem;
+}
+
+#ui-id-1 {
+    max-height: 400px;
+    overflow: hidden auto;
+}
+
+.comment-form {
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.board-content{
+    min-height: 20rem !important;
+}
+
+.tab-pane.fade.active {
+    border-bottom: 1px solid #dee2e6 !important;
+    border-right: 1px solid #dee2e6 !important;
+    border-left: 1px solid #dee2e6 !important;
+}
+
+.dropdown-menu {
+    min-width: 6rem !important;
+    font-size: .75rem !important;
+}
+
+#naverBtn {
+    background: #03C75A;
+}
+#fnguideBtn {
+    background: #454545;
+}
+#irgoBtn {
+    background: #444;
+}
+
+.nav-tabs {
+    border: none !important;
+}
+.tab-pane.fade.active {
+    border: none !important;
+    box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px !important;
+}
+.nav-tabs .nav-link.active {
+    box-shadow: rgb(0 0 0 / 4%) 0px -5px 10px 1px !important;
+    border: none !important;
+}
+
+.nav-tabs .nav-link {
+    margin-bottom: -2px !important;
+}
+
+.card, .box {
+    box-shadow: rgb(0 0 0 / 4%) 0px 4px 16px 0px !important;
+}
+
+
+#likeBtn:hover {
+    color: #fff !important;
+}
+
+.title:hover {
+    color: #0a58ca !important;
+}
+
+
+#article {
+    transition: box-shadow 0.25s ease-in 0s, transform 0.1s ease-in 0s;
+}
+
+#article:hover {
+    transform: translateY(-4px);
+}
+
+#article-x {
+    transition: box-shadow 0.25s ease-in 0s, transform 0.1s ease-in 0s;
+}
+
+#article-x:hover {
+    transform: translate(-4px);
+}

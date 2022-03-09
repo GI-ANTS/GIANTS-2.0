@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('404')">
+</head>
+<body>
+<div class="pt-4">
+    <h1 class="text-center pt-5 text-danger" th:text="${status + ' !!'}"></h1>
+    <h4 class="text-center pt-2">
+        <span class="text-warning">해당 페이지가 존재하지 않습니다</span>
+    </h4>
+</div>
+</body>
+</html>
+

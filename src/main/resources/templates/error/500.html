@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('500')">
+</head>
+<body>
+<div class="pt-4">
+    <h1 class="text-center pt-5 text-danger" th:text="${status + ' !!'}"></h1>
+    <h4 class="text-center pt-2">
+        <button type="button" class="btn btn-outline-danger" onclick="goBack()">뒤로가기</button>
+    </h4>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${trace}]]*/ 'default';
+    console.log(message);
+    /*]]>*/
+    alert("유효하지 않은 요청입니다");
+
+    function goBack() {
+        window.history.back();
+    }
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('REPORT')">
+</head>
+
+<script th:src="@{/js/disclosure.js}"></script>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('REPORT')">
+</nav>
+<section>
+    <div class="main col-lg-7 m-auto py-4 px-lx-3 px-md-2 px-sm-0">
+
+        <div th:if="${stock}" class="py-3 d-flex justify-content-between">
+            <a class="btn btn-success p-1" th:href="@{/stock(stockName=${stock.stockName})}">#<span
+                    th:text="${stock.stockName}"></span></a>
+            <div>
+                <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/all'}"
+                   th:classappend="${disclosureType == 'all'} ? 'btn btn-success text-white'"><span> 전체 </span></a>
+                <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/regular'}"
+                   th:classappend="${disclosureType == 'regular'} ? 'btn btn-success text-white'"><span>정기공시</span></a>
+                <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/share'}"
+                   th:classappend="${disclosureType == 'share'} ? 'btn btn-success text-white'"><span>지분공시</span></a>
+                <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/contract'}"
+                   th:classappend="${disclosureType == 'contract'} ? 'btn btn-success text-white'"><span>수주공시</span></a>
+                <a class="btn btn-outline-success p-1" th:href="@{'/stock/'+${stock.stockId}+'/disclosure/performance'}"
+                   th:classappend="${disclosureType == 'performance'} ? 'btn btn-success text-white'"><span>실적공시</span></a>
+            </div>
+        </div>
+
+        <div th:if="!${stock}">
+            <div th:if="${disclosureType == 'today' || disclosureType == 'regular' || disclosureType == 'share' || disclosureType == 'contract' || disclosureType == 'performance'}">
+                <h4 class="p-2 mb-0">오늘의 공시</h4>
+                <div class="px-2 pt-1 pb-4 d-flex justify-content-between">
+                    <div>
+                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/today}"
+                           th:classappend="${disclosureType == 'today'} ? 'btn btn-primary text-white'"><span> 전체 </span></a>
+                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/regular}"
+                           th:classappend="${disclosureType == 'regular'} ? 'btn btn-primary text-white'"><span>정기공시</span></a>
+                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/share}"
+                           th:classappend="${disclosureType == 'share'} ? 'btn btn-primary text-white'"><span>지분공시</span></a>
+                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/contract}"
+                           th:classappend="${disclosureType == 'contract'} ? 'btn btn-primary text-white'"><span>수주공시</span></a>
+                        <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/disclosure/performance}"
+                           th:classappend="${disclosureType == 'performance'} ? 'btn btn-primary text-white'"><span>실적공시</span></a>
+                        <!--
+                            보류
+                            <a class="btn btn-outline-primary rounded-pill p-1" th:href="@{/report/facility}"><span>시설투자</span></a>
+                        -->
+                    </div>
+
+                    <div>
+                        <a class="btn btn-outline-primary rounded-pill p-1" data-bs-toggle="modal"
+                           data-bs-target="#exampleModal">
+                    <span>
+                        상세검색
+                        <i class="fa fa-search"></i>
+                    </span>
+                        </a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header p-2">
+                                        <h5 class="modal-title" id="exampleModalLabel">공시 상세검색</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/disclosure/search}" th:method="GET"
+                                              th:onsubmit="return searchValidation()">
+                                            <div class="btn-group w-100 pt-2 pb-3" role="group"
+                                                 aria-label="Basic radio toggle button group">
+                                                <input type="radio" class="btn-check" name="type" id="corpName"
+                                                       autocomplete="off" checked value="c">
+                                                <label class="btn btn-outline-primary" for="corpName">기업명</label>
+                                                <input type="radio" class="btn-check" name="type" id="reportName"
+                                                       autocomplete="off" value="t">
+                                                <label class="btn btn-outline-primary" for="reportName">보고서명</label>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="w-50">
+                                                    <label>시작일</label>
+                                                    <input class="form-control" type="date" name="ss" id="searchStart">
+                                                </div>
+                                                <div class="w-50">
+                                                    <label>종료일</label>
+                                                    <input class="form-control" type="date" name="se" id="searchEnd">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="input-group mb-3">
+                                                <input class="form-control border-secondary" type="text" name="keyword">
+                                                <button type="submit" class="btn btn-outline-secondary">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 mb-3" th:if="${disclosureType == 'search'}">
+            <h5>
+                <span th:text="${searchStart}"></span> ~
+                <span th:text="${searchEnd}"></span><br>
+                <span th:if="${type=='c'}">기업명</span>
+                <span th:if="${type=='t'}">보고서명</span>
+
+                <a th:if="${type=='c'}" class="btn btn-success p-1" type="button"
+                   th:href="'/stock?stockName='+${keyword}">
+                    <span>
+                        # [[${keyword}]]
+                    </span>
+                </a>
+                <span class="text-primary" th:if="${type!='c'}">[[${keyword}]]</span>
+                의 검색결과 입니다.
+                <a class="p-1 btn btn-outline-secondary" th:href="@{/disclosure/today}"><span>초기화</span></a>
+            </h5>
+        </div>
+
+        <div>
+            <div class="text-center fs-4" th:if="${reports.dtoList.size() == 0}">
+                <span class="pt-4">공시가 존재하지 않습니다.</span>
+            </div>
+
+            <div th:each="report : ${reports.dtoList}">
+                <button type="button" class="btn bg-white w-100 mb-2 text-start box" id="article-x"
+                        th:onclick="reportDetail([[${report.rcpNo}]])">
+                    <span class="text-danger" th:text="${report.corpName}"></span>
+                    <div>
+                        <span th:if="${report.reportNm.length()} <= 50" th:text="${report.reportNm}"></span>
+                    </div>
+                    <div>
+                        <span th:if="${report.reportNm.length()} > 50"
+                              th:text="${#strings.substring(report.reportNm, 0, 50)} + '...'  "></span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <span class="text-secondary" th:text="${report.rceptDt}"></span>
+                        </div>
+                        <div>
+                            <i class="far fa-comments"></i>
+                            <span th:text="${report.commentCount}"></span>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+
+            <div th:unless="${stock}">
+                <ul class="pagination justify-content-center align-items-center mt-3">
+                    <li class="page-item" th:if="${reports.prev}">
+                        <a class="page-link"
+                           th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${reports.start -1})}"
+                           tabindex="-1"><span> < </span></a>
+                    </li>
+                    <li class="page-item" th:each="page: ${reports.pageList}">
+                        <a class="page-link"
+                           th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${page})}"
+                           th:classappend="${reports.page == page} ? 'bg-primary text-white'">
+                            <span th:text="${page}"></span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:if="${reports.next}">
+                        <a class="page-link"
+                           th:href="@{'/disclosure/'+${disclosureType}(type=${type}, ss=${searchStart}, se=${searchEnd}, keyword=${keyword}, page=${reports.end +1})}"><span> > </span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div th:if="${stock}">
+                <ul class="pagination justify-content-center align-items-center mt-3">
+                    <li class="page-item" th:if="${reports.prev}">
+                        <a class="page-link"
+                           th:href="@{'/stock/'+${stock.stockId}+'/disclosure/'+${disclosureType}(page=${reports.start -1})}"
+                           tabindex="-1"><span> < </span></a>
+                    </li>
+                    <li class="page-item" th:each="page: ${reports.pageList}">
+                        <a class="page-link"
+                           th:href="@{'/stock/'+${stock.stockId}+'/disclosure/'+${disclosureType}(page=${page})}"
+                           th:classappend="${reports.page == page} ? 'bg-primary text-white'">
+                            <span th:text="${page}"></span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:if="${reports.next}">
+                        <a class="page-link"
+                           th:href="@{'/stock/'+${stock.stockId}+'/disclosure/'+${disclosureType}(page=${reports.end +1})}"><span> > </span></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <br>
+
+    </div>
+</section>
+
+</body>
+
+</html>
