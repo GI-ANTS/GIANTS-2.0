@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head('HOT')">
+</head>
+
+<body>
+<nav class="bg-dark" th:replace="layout/layout :: menu('HOT')">
+</nav>
+
+<section>
+    <div class="main col-lg-8 m-auto p-3">
+
+        <div class="d-flex justify-content-between pt-2 pb-4">
+            <h4>
+                <span>인기글</span>
+            </h4>
+            <div>
+                <form th:action="@{/main/hot}" th:method="GET" id="searchForm">
+                    <div class="input-group">
+                        <input type="hidden" name="page" value="1">
+                        <div class="input-group-prepend">
+                            <input type="hidden" name="type" th:value="tc">
+                        </div>
+                        <input class="form-control" type="text" name="keyword" th:value="${pageRequestDto.keyword}">
+                        <div class="input-group-append" id="button-addon4">
+                            <button class="btn btn-outline-secondary btn-search" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div th:each="board : ${boards.dtoList}" class="card border-0 mb-3" style="border-radius: 1rem !important;">
+            <div class="card-body bg-white w-100 text-start">
+
+                <div class="d-flex justify-content-between">
+                    <a class="text-dark title" th:href="@{/board/detail(b=${board.boardId})}">
+                        <h3 th:text="${board.title}"></h3>
+                    </a>
+                    <a type="button" class="btn btn-success p-1 py-0 m-0" th:href="@{/stock(stockName=${board.stockName})}" style="height: 1.75rem !important;">
+                        #<span th:text="${board.stockName}"></span>
+                    </a>
+                </div>
+
+                <span class="text-dark" th:text="${board.nickname}"></span>
+                <div class="d-flex justify-content-between">
+                    <span class="text-secondary">[[${#temporals.format(board.createdAt, 'yyyy-MM-dd')}]]</span>
+                    <div>
+                        <i class="far fa-comments"></i>
+                        <span th:text="${board.commentCount}"></span>
+                        &nbsp;
+                        <i class="fa fa-heart"></i>
+                        <span th:text="${board.likeCount}"></span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul class="pagination justify-content-center align-items-center">
+            <li class="page-item" th:if="${boards.prev}">
+                <a th:href="@{/main/hot(page=${boards.start -1})}" tabindex="-1"> < </a>
+            </li>
+            <li class="page-item" th:each="page: ${boards.pageList}">
+                <a class="page-link" th:href="@{/main/hot(page=${page})}" th:classappend="${boards.page == page} ? 'bg-primary text-white'">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${boards.next}">
+                <a class="page-link" th:href="@{/main/hot(page=${boards.end +1})}"> > </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+</body>
+
+</html>

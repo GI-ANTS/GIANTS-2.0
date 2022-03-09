@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layout/layout :: head('JOIN')">
+</head>
+
+<script th:src="@{/js/user.js}"></script>
+
+<body>
+
+<section class="w-100 vh-100">
+    <div class="col-lg-5 mx-auto bg-white vh-100 p-4">
+
+        <h3 class="text-center pt-5">회원가입</h3>
+        <br>
+        <div class="w-100 py-2">
+            <label for="username"><span>이메일</span></label>
+            <div class="d-flex">
+                <input class="form-control w-75" type="email" id="username" name="username" autocomplete="off">
+                <button id="mail" type="button" class="btn btn-danger w-25 p-1" th:onclick="sendCert()">
+                    <span>인증메일 발송</span></button>
+            </div>
+
+            <div id="loading"></div>
+
+            <div id="chkForm" class="d-flex d-none pt-3">
+                <input class="form-control w-75" type="text" id="certKey" name="certKey" autocomplete="off">
+                <button type="button" class="btn btn-outline-danger w-25 p-1" th:onclick="chkCert()"><span>인증</span>
+                </button>
+            </div>
+        </div>
+        <div class="w-100 py-2">
+            <label for="nickname"><span>닉네임</span></label>
+            <div class="d-flex">
+                <input class="form-control w-75" type="text" id="nickname" name="nickname">
+                <button class="btn btn-dark w-25 p-1" type="button" th:onclick="chkDup()"><span>중복체크</span></button>
+            </div>
+        </div>
+        <div class="w-100 py-2">
+            <label for="password"><span>비밀번호</span></label>
+            <input class="form-control" type="password" id="password" name="password" autocomplete="off">
+        </div>
+        <div class="w-100 py-2">
+            <label for="password"><span>비밀번호 확인</span></label>
+            <input class="form-control" type="password" id="pwChk" autocomplete="off">
+        </div>
+        <div class="w-100 py-3">
+            <button type="submit" id="join" class="btn btn-primary w-100" onclick="joinValidation()">
+                <input type="hidden" name="mailOk" id="mailOk">
+                <input type="hidden" name="nickOk" id="nickOk">
+                <span>회원가입 완료</span>
+            </button>
+        </div>
+
+        <br>
+        <span>이미 <b>GIANTS</b>의 회원이신가요?</span>
+        <a class="btn btn-outline-primary w-100" th:href="@{/auth/login}"><span>로그인하러 가기</span></a>
+
+    </div>
+</section>
+
+</body>
+
+</html>

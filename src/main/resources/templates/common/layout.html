@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title th:text="${title}"></title>
+
+    <link rel="stylesheet" th:href="@{/bs5/css/bootstrap.css}">
+    <script th:src="@{/bs5/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<nav class="bg-dark" th:fragment="menu(menu)">
+    <div class="col-lg-8 m-auto text-center d-flex align-items-center justify-content-evenly">
+
+        <a class="btn btn-dark" th:href="@{/}">
+            <span class="fs-5">GIANTS</span>
+        </a>
+
+        <a class="btn btn-dark rounded-circle" th:href="@{/pick}">
+            <i class="fa fa-paper-plane"></i>
+        </a>
+
+        <a class="btn btn-dark rounded-circle" th:href="@{/main/search}">
+            <i class="fa fa-search"></i>
+        </a>
+
+        <a class="btn btn-dark rounded-circle" sec:authorize="!isAuthenticated()" th:href="@{/auth/login}">
+            <i class="fa fa-sign-in-alt"></i>
+        </a>
+
+        <a class="btn btn-dark rounded-circle" data-bs-toggle="dropdown" aria-expanded="false"
+           sec:authorize="isAuthenticated()">
+            <i class="fa fa-user"></i>
+        </a>
+
+        <ul class="dropdown-menu p-0">
+            <li><a class="dropdown-item p-2" th:href="@{/mypage/bookmark}">마이페이지</a></li>
+            <hr class="dropdown-divider m-0">
+            <li><a class="dropdown-item p-2" th:href="@{/logout}">로그아웃</a></li>
+        </ul>
+
+    </div>
+</nav>
+
+</body>
+
+</html>
